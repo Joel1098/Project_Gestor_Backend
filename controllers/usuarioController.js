@@ -1,8 +1,14 @@
+/*En este bloque, se importan el modelo Usuario y varias funciones auxiliares desde archivos externos. 
+Estas funciones incluyen generarId, generarJWT, emailRegistro, y emailOlvidePassword. */
 import Usuario from "../models/Usuario.js";
 import generarId from "../helpers/generarId.js";
 import generarJWT from "../helpers/generarJWT.js";
 import { emailRegistro, emailOlvidePassword } from "../helpers/email.js";
 
+/*Esta función maneja el proceso de registro de usuarios. 
+Primero verifica si el usuario ya existe en la base de datos, luego crea un nuevo usuario, genera un token, 
+y envía un correo electrónico de confirmación. 
+Si hay algún error, se maneja dentro del bloque try-catch. */
 const registrar = async (req, res) => {
   // Evitar registros duplicados
   const { email } = req.body;
@@ -33,6 +39,9 @@ const registrar = async (req, res) => {
   }
 };
 
+/*Esta función se encarga de autenticar a los usuarios. 
+Comprueba si el usuario existe, si su cuenta está confirmada y si la contraseña proporcionada es correcta. 
+Si todo está en orden, devuelve un token de JWT para la autenticación. */
 const autenticar = async (req, res) => {
   const { email, password } = req.body;
 
@@ -63,6 +72,8 @@ const autenticar = async (req, res) => {
   }
 };
 
+/*Esta función confirma la cuenta del usuario. 
+Verifica el token proporcionado, marca la cuenta como confirmada y elimina el token de confirmación.*/
 const confirmar = async (req, res) => {
   const { token } = req.params;
   const usuarioConfirmar = await Usuario.findOne({ token });
@@ -81,6 +92,8 @@ const confirmar = async (req, res) => {
   }
 };
 
+/*En esta función, se comprueba si el usuario existe, se genera un nuevo token, 
+se guarda en la base de datos y se envían instrucciones por correo electrónico para restablecer la contraseña.*/
 const olvidePassword = async (req, res) => {
   const { email } = req.body;
   const usuario = await Usuario.findOne({ email });
@@ -106,6 +119,7 @@ const olvidePassword = async (req, res) => {
   }
 };
 
+//Esta función verifica si un token dado es válido, es decir, si existe en la base de datos.
 const comprobarToken = async (req, res) => {
   const { token } = req.params;
 
@@ -119,6 +133,8 @@ const comprobarToken = async (req, res) => {
   }
 };
 
+/*Esta función permite a los usuarios cambiar su contraseña. 
+Verifica si el token proporcionado es válido y luego actualiza la contraseña del usuario en la base de datos. */
 const nuevoPassword = async (req, res) => {
   const { token } = req.params;
   const { password } = req.body;
@@ -140,6 +156,8 @@ const nuevoPassword = async (req, res) => {
   }
 };
 
+/*La función perfil se utiliza para devolver el perfil del usuario autenticado en función de los datos almacenados en el objeto req. 
+Esta información generalmente se obtiene después de que un usuario ha sido autenticado correctamente. */
 const perfil = async (req, res) => {
   const { usuario } = req;
 
