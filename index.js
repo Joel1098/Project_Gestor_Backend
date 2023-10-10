@@ -1,16 +1,23 @@
+//Express para servidor web
 import express from "express";
+//Uso de archivo .env
 import dotenv from "dotenv";
+//Intercambio de recursos entre dominios
 import cors from "cors";
+//Importacion para conexión con BD
 import conectarDB from "./config/db.js";
+//Llamado a los routeos de usuario, proyecto y tarea
 import usuarioRoutes from "./routes/usuarioRoutes.js";
 import proyectoRoutes from "./routes/proyectoRoutes.js";
 import tareaRoutes from "./routes/tareaRoutes.js";
 
+//Instancia de express para servidor web
 const app = express();
+//Analiza peticiones
 app.use(express.json());
-
+//Carga variables de entorno
 dotenv.config();
-
+//Establecimiento de conexión con BD
 conectarDB();
 
 // Configurar CORS
@@ -28,19 +35,22 @@ const corsOptions = {
   },
 };
 
+//Configura el middleware CORS con opciones específicas para permitir solicitudes desde el dominio del frontend
 app.use(cors(corsOptions));
 
-// Routing
+// Routing de las peticiones HTTP
 app.use("/api/usuarios", usuarioRoutes);
 app.use("/api/proyectos", proyectoRoutes);
 app.use("/api/tareas", tareaRoutes);
 
+//Configuración del puerto 4000 para el servidor web 4000
 const PORT = process.env.PORT || 4000;
+//Inicio del servidor
 const servidor = app.listen(PORT, () => {
   console.log(`Servidor corriendo en el puerto ${PORT}`);
 });
 
-// Socket.io
+// Socket.io para cominicación en tiempo real
 import { Server } from "socket.io";
 
 const io = new Server(servidor, {
