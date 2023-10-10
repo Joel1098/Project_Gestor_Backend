@@ -1,6 +1,6 @@
 //Express para el routeo de la API
 import express from "express";
-//Recupera métodos controladores de Proyecto y manejar sus solicitues HTTP
+//Recupera métodos controladores de Proyecto y manejar sus solicitudes HTTP
 import {
   obtenerProyectos,
   nuevoProyecto,
@@ -43,4 +43,5 @@ router.post("/colaboradores/:id", checkAuth, agregarColaborador);
 //Ruteo para eliminar colaborador a proyecto mediante ID con método HTTP POST
 router.post("/eliminar-colaborador/:id", checkAuth, eliminarColaborador);
 
+//Permite su uso en otros lados.
 export default router;

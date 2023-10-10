@@ -40,4 +40,5 @@ const checkAuth = async (req, res, next) => {
   next();
 };
 
+//Permite su uso en otros lados.
 export default checkAuth;
