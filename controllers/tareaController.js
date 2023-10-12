@@ -1,6 +1,9 @@
 import Proyecto from "../models/Proyecto.js";
 import Tarea from "../models/Tarea.js";
 
+/*Funcion dedicada a crear una nueva tarea el cual se guardara en la base de datos con el usuario pero
+tambien coincide con que si el proyecto en el que se va a guardar existe y respondera a un identificador unico
+para el creador del proyecto asi como tambien confirma de que se ha creado la tarea exitosamente*/
 const agregarTarea = async (req, res) => {
   const { proyecto } = req.body;
 
@@ -27,6 +30,8 @@ const agregarTarea = async (req, res) => {
   }
 };
 
+/*Consulta la base de datos si es que la tarea existe ademas de que tambien debe de coincidir que 
+esa tarea este dentro del proyecto en el que se esta trabajando */
 const obtenerTarea = async (req, res) => {
   const { id } = req.params;
 
@@ -45,6 +50,10 @@ const obtenerTarea = async (req, res) => {
   res.json(tarea);
 };
 
+
+/*Al igual que el proyecto, esta funcion es para actualizar diferentes parametros de nuestra tarea
+siempre y cuando se encuentre, coincida con el proyecto qie se esta trabajando y en dado caso de que 
+no se encuentre o no se hayan podido almacenar los cambios, arroje un error*/
 const actualizarTarea = async (req, res) => {
   const { id } = req.params;
 
@@ -73,6 +82,9 @@ const actualizarTarea = async (req, res) => {
   }
 };
 
+/*Utilizando metodos de JavaScript e implementando las validaciones correspondientes como en
+funciones anteriores, solamente aplicamos dicho metodo a la tarea contenida dentro de nuestro proyecto
+pero siempre y cuando sea el creador quien desee eliminar la tarea*/
 const eliminarTarea = async (req, res) => {
   const { id } = req.params;
 
@@ -98,6 +110,10 @@ const eliminarTarea = async (req, res) => {
   }
 };
 
+/*Esta funcion nos permite cambiar el estado de nuestra tarea ya que parte de trabajar con este tipo de aplicaciones
+es validar si nuestra tarea ya esta hecha o lista o no, por ello es que aqui nos permite poder marcar
+la tarea como completada, en este caso, el status y con ello tambien considerando bloques de codigo
+que ya hemos usado en funciones anteriores para validacion*/
 const cambiarEstado = async (req, res) => {
   const { id } = req.params;
 
@@ -129,10 +145,11 @@ const cambiarEstado = async (req, res) => {
   res.json(tareaAlmacenada);
 };
 
+
+/*Funciones de nuestro controlador que se pueden exportar a otros archivos de nuestro proyecto
+para ser utilizados en alguna otra funcionalidad especifica*/
+
 export {
-  agregarTarea,
-  obtenerTarea,
-  actualizarTarea,
-  eliminarTarea,
-  cambiarEstado,
+  actualizarTarea, agregarTarea, cambiarEstado, eliminarTarea, obtenerTarea
 };
+
